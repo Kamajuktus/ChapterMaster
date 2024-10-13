@@ -1053,7 +1053,9 @@ function scr_draw_unit_image(_background=false){
                         shader_set(sReplaceColor);
                         shader_set_uniform_i(shader_get_uniform(sReplaceColor, "u_blend_modes"), 0);                         
                     }
-                }            
+                }         
+				
+				
                 // Apothecary Lens
                 if (ui_specialist=3){
                     if (armour()=="Tartaros"){
@@ -1109,6 +1111,51 @@ function scr_draw_unit_image(_background=false){
                     shader_set(sReplaceColor);
                 }
             }
+			
+			// White Scars and their succesors' special decorations
+			if(progenitor_map()="White Scars"){
+				// Exclude chaplains, apothecaries and techmarines, because additional decorations mismatch with existing ones
+				if !array_contains([obj_ini.role[100][Role.CHAPLAIN],obj_ini.role[100][Role.APOTHECARY], obj_ini.role[100][Role.TECHMARINE]], role()){
+					if((unit_armour="MK6 Corvus" or unit_armour="MK7 Aquila") and strength >= 50){
+						draw_sprite(ws_mk6_r_pauldron_veteran,0,x_surface_offset,y_surface_offset-40)
+					}	
+					if(constitution >= 45 and (unit_armour="MK3 Iron Armour" or unit_armour="MK5 Heresy")){
+						draw_sprite(ws_mk3_r_pauldron_veteran,0,x_surface_offset,y_surface_offset-40)
+					}
+					if(charisma >= 30 and (unit_armour="MK3 Iron Armour")){
+						draw_sprite(ws_mk3_special_helmet,0,x_surface_offset,y_surface_offset-40)
+					}
+					if(weapon_skill >= 40 and (unit_armour="MK4 Maximus")){
+						draw_sprite(ws_mk4_monovisor,0,x_surface_offset,y_surface_offset-40)
+					}
+					if(constitution >= 40 and (unit_armour="MK4 Maximus")){
+						draw_sprite(ws_mk4_alt_helmet,0,x_surface_offset,y_surface_offset-40)
+					}
+					if(strength >= 50 and (unit_armour="MK4 Maximus")){
+						draw_sprite(ws_mk4_helmet_figure_2,0,x_surface_offset,y_surface_offset-40)
+					}
+					if(strength >= 40 and (unit_armour="MK4 Maximus")){
+						draw_sprite(ws_mk4_helmet_figure_1,0,x_surface_offset,y_surface_offset-40)
+					}
+					if(unit_armour="MK7 Aquila" or unit_armour="MK8 Errant"){
+						if(array_contains(traits, "ancient") or array_contains(traits, "seasoned") or array_contains(traits, "old_guard")){
+							draw_sprite(ws_mk7_scar_of_the_ancients,0,x_surface_offset,y_surface_offset-40)
+						}
+						if(array_contains(traits, "lone_survivor") or array_contains(traits, "very_hard_to_kill") or array_contains(traits, "still_standing") or array_contains(traits, "harshborn")){
+							draw_sprite(ws_mk7_scar_of_the_tough,0,x_surface_offset,y_surface_offset-40)
+						}else if(array_contains(traits, "jaded") or array_contains(traits, "recluse") or array_contains(traits, "feral")){
+							draw_sprite(ws_mk7_scar_of_the_jaded,0,x_surface_offset,y_surface_offset-40)
+						}else if(array_contains(traits, "shitty_luck") or array_contains(traits, "feet_floor") or array_contains(traits, "skeptic")){
+							draw_sprite(ws_mk7_scar_of_the_bad_omen,0,x_surface_offset,y_surface_offset-40)
+						}else if(array_contains(traits, "lead_example") or array_contains(traits, "natural_leader") or array_contains(traits, "paragon") or array_contains(traits, "guardian")){
+							draw_sprite(ws_mk7_scar_of_the_leader,0,x_surface_offset,y_surface_offset-40)
+						}
+					}
+					if(charisma >= 35 and (unit_armour="MK6 Corvus" or unit_armour="MK7 Aquila" or unit_armour="MK8 Errant")){
+						draw_sprite(ws_mongolian_hat_1,0,x_surface_offset,y_surface_offset)
+					}
+				}
+			}
             //purity seals/decorations
             //TODO imprvoe this logic to be more extendable
             if (armour_type==ArmourType.Normal){
